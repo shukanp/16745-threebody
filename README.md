@@ -11,10 +11,14 @@
 * Skim references
 * Calculate Lagrange Points
 * Generate motion of a particle (spacecraft) in 2D
-
- * Test
+   * Dynamics: f(x) --> vector of the states (4 states, 2 pos and 2 vel)
+   * Integration: rk4()
+   * Plot
 
 ## Figure out (questions)
 
 * What to do with dynamics?
+   * Add inputs?
+   * If adding inputs, implement feedback controller? LQR?
+
 
