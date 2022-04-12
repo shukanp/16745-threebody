@@ -14,11 +14,14 @@
    * Dynamics: f(x) --> vector of the states (4 states, 2 pos and 2 vel)
    * Integration: rk4()
    * Plot
+   * 3D Visualizer
 
 ## Figure out (questions)
 
 * What to do with dynamics?
    * Add inputs?
-   * If adding inputs, implement feedback controller? LQR?
-
-
+   * If adding inputs, implement feedback controller?
+       * LQR?
+       * MPC?
+       * iLQR?
+       * SQP?
