@@ -1,5 +1,6 @@
 clc; close all; clear;
 
+
 % First-Order Linear
 %{
 omega = 2.0152105515;
@@ -11,7 +12,7 @@ Ax = 206000/scaling_factor;
 Ay = 665000/scaling_factor;
 Az = 110000/scaling_factor;
 
-t = 0:0.05:2*pi;%100;
+t = 0:0.05:100;%2*pi;%100;
 angle1 = 0:0.01:2*pi;
 angle2 = 0:0.01:2*pi;
 
@@ -36,134 +37,156 @@ m = 1;
 psi = m*(pi/2) + phi;
 
 % PLOTS 1
-% x1 = -Ax*cos(angle1 + phi) + xpoint;
-% y1 = Ay*sin(angle1 + phi) + ypoint;
-% z1 = Az*sin(angle2 + 1*(pi/2) + phi) + zpoint;
-% x3 = -Ax*cos(angle1 + phi) + xpoint;
-% y3 = Ay*sin(angle1 + phi) + ypoint;
-% z3 = Az*sin(angle2 + 3*(pi/2) + phi) + zpoint;
-% 
-% subplot(3,1,1);
-% hold on;
-% plot(xpoint, ypoint, 'b*')
-% plot(xearth, yearth, 'bo', 'MarkerSize', 5)
-% plot(xsun, ysun, 'ro', 'MarkerSize', 10)
-% plot(x1, y1, 'r-', 'DisplayName', 'M = 1')
-% plot(x3, y3, 'k-', 'DisplayName', 'M = 3')
-% xlabel('X')
-% ylabel('Y')
-% legend()
-% hold off;
-% 
-% subplot(3,1,2);
-% hold on;
-% plot(xearth, zearth, 'bo', 'MarkerSize', 5)
-% plot(xsun, zsun, 'ro', 'MarkerSize', 10)
-% plot(xpoint, zpoint, 'b*')
-% plot(x1, z1, 'r-', 'DisplayName', 'M = 1')
-% plot(x3, z3, 'k-', 'DisplayName', 'M = 3')
-% xlabel('X') 
-% ylabel('Z') 
-% hold off;
-% 
-% subplot(3,1,3);
-% hold on;
-% plot(yearth, zearth, 'bo', 'MarkerSize', 5)
-% plot(ysun, zsun, 'ro', 'MarkerSize', 10)
-% plot(ypoint, zpoint, 'b*')
-% plot(y1, z1, 'r-', 'DisplayName', 'M = 1')
-% plot(y3, z3, 'k-', 'DisplayName', 'M = 3')
-% xlabel('Y') 
-% ylabel('Z')
-% hold off;
+%{
+x1 = -Ax*cos(angle1 + phi) + xpoint;
+y1 = Ay*sin(angle1 + phi) + ypoint;
+z1 = Az*sin(angle2 + 1*(pi/2) + phi) + zpoint;
+x3 = -Ax*cos(angle1 + phi) + xpoint;
+y3 = Ay*sin(angle1 + phi) + ypoint;
+z3 = Az*sin(angle2 + 3*(pi/2) + phi) + zpoint;
 
-% PLOTS 2
-% m = 1;
-% phi = 0;
-% psi = m*(pi/2) + phi;
-% x1 = -Ax*cos(w_p*t + phi) + xpoint;
-% y1 =  Ay*sin(w_p*t + phi) + ypoint;
-% z1 =  Az*sin(w_v*t + psi) + zpoint;
-% 
-% hold on;
-% [X,Y,Z] = sphere;
-% X2 = X * eradius;
-% Y2 = Y * eradius;
-% Z2 = Z * eradius;
-% XS = X * sradius;
-% YS = Y * sradius;
-% ZS = Z * sradius;
-% surf(X2 + xearth, Y2, Z2)
-% surf(XS + xsun, YS, ZS)
-% plot3(xpoint, ypoint, zpoint, 'b*')
-% plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
-% zlim([-0.01 0.01])
-% ylim([-0.01 0.01])
-% grid on;
-% xlabel('X') 
-% ylabel('Y') 
-% zlabel('Z') 
-% hold off;
+subplot(3,1,1);
+hold on;
+plot(xpoint, ypoint, 'b*', 'DisplayName', 'L1 Lagrange Point')
+plot(xearth, yearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b', 'DisplayName', 'Earth')
+plot(xsun, ysun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y', 'DisplayName', 'Sun')
+plot(x1, y1, 'r-', 'DisplayName', 'M = 1')
+plot(x3, y3, 'k-', 'DisplayName', 'M = 3')
+xlabel('X')
+ylabel('Y')
+grid on
+grid(gca, 'minor')
+lgd = legend();
+lgd.FontSize = 20;
+hold off;
 
-% PLOTS 3
-% m = 1;
-% phi = 0;
-% psi = m*(pi/2) + phi;
-% x1 = -Ax*cos(w_p*t + phi) + xpoint;
-% y1 =  Ay*sin(w_p*t + phi) + ypoint;
-% z1 =  Az*sin(w_v*t + psi) + zpoint;
-% 
-% hold on;
-% plot3(xpoint, ypoint, zpoint, 'b*')
-% plot3(xearth, yearth, zearth, 'bo', 'MarkerSize', 5)
-% plot3(xsun, ysun, zsun, 'ro', 'MarkerSize', 10)
-% plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
-% grid on;
-% xlabel('X') 
-% ylabel('Y') 
-% zlabel('Z') 
-% hold off;
+subplot(3,1,2);
+hold on;
+plot(xearth, zearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b')
+plot(xsun, zsun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y')
+plot(xpoint, zpoint, 'b*')
+plot(x1, z1, 'r-', 'DisplayName', 'M = 1')
+plot(x3, z3, 'k-', 'DisplayName', 'M = 3')
+xlabel('X') 
+ylabel('Z')
+grid on
+grid(gca, 'minor')
+hold off;
 
-% PLOTS 4
-% m = 1;
-% phi = 0;
-% psi = m*(pi/2) + phi;
-% x1 = -Ax*cos(w_p*t + phi) + xpoint;
-% y1 =  Ay*sin(w_p*t + phi) + ypoint;
-% z1 =  Az*sin(w_v*t + psi) + zpoint;
-% subplot(3,1,1);
-% hold on;
-% plot(xpoint, ypoint, 'b*')
-% plot(xearth, yearth, 'bo', 'MarkerSize', 5)
-% plot(xsun, ysun, 'ro', 'MarkerSize', 10)
-% plot(x1, y1, 'r-', 'DisplayName', 'M = 1')
-% xlabel('X')
-% ylabel('Y')
-% legend()
-% hold off;
-% 
-% subplot(3,1,2);
-% hold on;
-% plot(xearth, zearth, 'bo', 'MarkerSize', 5)
-% plot(xsun, zsun, 'ro', 'MarkerSize', 10)
-% plot(xpoint, zpoint, 'b*')
-% plot(x1, z1, 'r-', 'DisplayName', 'M = 1')
-% xlabel('X') 
-% ylabel('Z') 
-% hold off;
-% 
-% subplot(3,1,3);
-% hold on;
-% plot(yearth, zearth, 'bo', 'MarkerSize', 5)
-% plot(ysun, zsun, 'ro', 'MarkerSize', 10)
-% plot(ypoint, zpoint, 'b*')
-% plot(y1, z1, 'r-', 'DisplayName', 'M = 1')
-% xlabel('Y') 
-% ylabel('Z')
-% hold off;
-
+subplot(3,1,3);
+hold on;
+plot(yearth, zearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b')
+plot(ysun, zsun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y')
+plot(ypoint, zpoint, 'b*')
+plot(y1, z1, 'r-', 'DisplayName', 'M = 1')
+plot(y3, z3, 'k-', 'DisplayName', 'M = 3')
+xlabel('Y') 
+ylabel('Z')
+grid on
+grid(gca, 'minor')
+hold off;
 %}
 
+% PLOTS 2
+%{
+m = 1;
+phi = 0;
+psi = m*(pi/2) + phi;
+x1 = -Ax*cos(w_p*t + phi) + xpoint;
+y1 =  Ay*sin(w_p*t + phi) + ypoint;
+z1 =  Az*sin(w_v*t + psi) + zpoint;
+
+hold on;
+[X,Y,Z] = sphere;
+X2 = X * eradius;
+Y2 = Y * eradius;
+Z2 = Z * eradius;
+XS = X * sradius;
+YS = Y * sradius;
+ZS = Z * sradius;
+surf(X2 + xearth, Y2, Z2)
+surf(XS + xsun, YS, ZS)
+plot3(xpoint, ypoint, zpoint, 'b*')
+plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
+zlim([-0.01 0.01])
+ylim([-0.01 0.01])
+grid on;
+xlabel('X') 
+ylabel('Y') 
+zlabel('Z') 
+hold off;
+%}
+
+% PLOTS 3
+%{
+m = 1;
+phi = 0;
+psi = m*(pi/2) + phi;
+x1 = -Ax*cos(w_p*t + phi) + xpoint;
+y1 =  Ay*sin(w_p*t + phi) + ypoint;
+z1 =  Az*sin(w_v*t + psi) + zpoint;
+
+hold on;
+plot3(xpoint, ypoint, zpoint, 'b*')
+plot3(xearth, yearth, zearth, 'bo', 'MarkerSize', 5)
+plot3(xsun, ysun, zsun, 'ro', 'MarkerSize', 10)
+plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
+% xlim([0.925 0.94])
+grid on;
+xlabel('X') 
+ylabel('Y') 
+zlabel('Z') 
+hold off;
+%}
+
+% PLOTS 4
+%{
+m = 1;
+phi = 0;
+psi = m*(pi/2) + phi;
+x1 = -Ax*cos(w_p*t + phi) + xpoint;
+y1 =  Ay*sin(w_p*t + phi) + ypoint;
+z1 =  Az*sin(w_v*t + psi) + zpoint;
+subplot(3,1,1);
+hold on;
+
+plot(xpoint, ypoint, 'b*', 'DisplayName', 'L1 Lagrange Point')
+plot(xearth, yearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b', 'DisplayName', 'Earth')
+plot(xsun, ysun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y', 'DisplayName', 'Sun')
+plot(x1, y1, 'r-', 'DisplayName', 'M = 1')
+xlabel('X')
+ylabel('Y')
+grid on
+grid(gca, 'minor')
+lgd = legend();
+lgd.FontSize = 20;
+hold off;
+
+subplot(3,1,2);
+hold on;
+plot(xearth, zearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b')
+plot(xsun, zsun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y')
+plot(xpoint, zpoint, 'b*')
+plot(x1, z1, 'r-', 'DisplayName', 'M = 1')
+xlabel('X') 
+ylabel('Z')
+grid on
+grid(gca, 'minor')
+hold off;
+
+subplot(3,1,3);
+hold on;
+plot(yearth, zearth, 'bo', 'MarkerSize', 5, 'MarkerFaceColor', 'b')
+plot(ysun, zsun, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'y')
+plot(ypoint, zpoint, 'b*')
+plot(y1, z1, 'r-', 'DisplayName', 'M = 1')
+xlabel('Y')
+ylabel('Z')
+grid on
+grid(gca, 'minor')
+hold off;
+%}
+%}
 
 
 
@@ -218,7 +241,7 @@ w_p = 2.086453455;
 tau = 0:0.05:100;
 tau_1 = w_p*tau + phi;
 
-scaling_factor = 1.495978714e8;%1.497610041e6;
+scaling_factor = 1.495978714e8;
 eradius = 6378/scaling_factor;
 sradius = 696000/scaling_factor;
 Ax = 206000/scaling_factor;
@@ -240,14 +263,22 @@ XS = X * sradius;
 YS = Y * sradius;
 ZS = Z * sradius;
 surf(X2 + xearth, Y2, Z2)
-surf(XS + xsun, YS, ZS)
+surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
+
+% Draw XY plane
+% (1, 1, 0)
+% (-1, 1, 0)
+% (-1, -1, 0)
+% (1, -1, 0)
+p = patch([1.2 -0.2 -0.2 1.2], [5e-3 5e-3 -5e-3 -5e-3], [0 0 0 0]);
+p.FaceAlpha = 0.1;
+
 grid on;
 xlabel('X') 
 ylabel('Y') 
 zlabel('Z') 
 hold off;
-
 %}
 
 
