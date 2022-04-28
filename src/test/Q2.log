@@ -1,0 +1,94 @@
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+
+Number of nonzeros in equality constraint Jacobian...:   206040
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:      505
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:      408
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+
+Number of Iterations....: 0
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 1
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 1
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 0
+Total seconds in IPOPT                               = 0.638
+
+EXIT: Invalid number in NLP function or derivative detected.
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+
+Number of nonzeros in equality constraint Jacobian...:   206040
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:      505
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:      408
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+
+Number of Iterations....: 0
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 1
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 1
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 0
+Total seconds in IPOPT                               = 0.268
+
+EXIT: Invalid number in NLP function or derivative detected.
+  Activating environment at `~/Classes/16745_OptimalControl/hw3_solutions/Project.toml`
+Test failed eval_f
+Test failed eval_f
+Test failed grad_f
+Test failed grad_f
+Test failed grad_f
+Test failed eval_c
+Test failed eval_c
+Test failed jac_c
+Test failed jac_c
+Creating NLP Block Data...
+Creating Ipopt...
+Adding constraints...
+starting Ipopt Solve...
+Test failed Q2c
+Test failed Q2c
+Controller ran at 30272.830366217735 Hz
+Controller ran at 3.147750797556049e6 Hz
+Test failed Q2d
+Test failed Q2d
+Running extra credit
+Creating NLP Block Data...
+Creating Ipopt...
+Adding constraints...
+starting Ipopt Solve...
+Creating NLP Block Data...
+Creating Ipopt...
+Adding constraints...
+starting Ipopt Solve...
