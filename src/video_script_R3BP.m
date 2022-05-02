@@ -254,16 +254,16 @@ y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax
 z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1) + zpoint;
 
 hold on;
-plot3(xpoint, ypoint, zpoint, 'b*')
-[X,Y,Z] = sphere;
-X2 = X * eradius;
-Y2 = Y * eradius;
-Z2 = Z * eradius;
-XS = X * sradius;
-YS = Y * sradius;
-ZS = Z * sradius;
-surf(X2 + xearth, Y2, Z2)
-surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
+% plot3(xpoint, ypoint, zpoint, 'b*')
+% [X,Y,Z] = sphere;
+% X2 = X * eradius;
+% Y2 = Y * eradius;
+% Z2 = Z * eradius;
+% XS = X * sradius;
+% YS = Y * sradius;
+% ZS = Z * sradius;
+% surf(X2 + xearth, Y2, Z2)
+% surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 
 % Draw XY plane
@@ -271,8 +271,8 @@ plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 % (-1, 1, 0)
 % (-1, -1, 0)
 % (1, -1, 0)
-p = patch([1.2 -0.2 -0.2 1.2], [5e-3 5e-3 -5e-3 -5e-3], [0 0 0 0]);
-p.FaceAlpha = 0.1;
+% p = patch([1.2 -0.2 -0.2 1.2], [5e-3 5e-3 -5e-3 -5e-3], [0 0 0 0]);
+% p.FaceAlpha = 0.1;
 
 grid on;
 xlabel('X') 
