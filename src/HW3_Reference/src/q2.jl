@@ -18,7 +18,7 @@ using SparseArrays
 
 include("quadratic_cost.jl")
 include("q2_model.jl")
-include("q2_tests.jl")
+# include("q2_tests.jl")
 # include("sparseblocks.jl")
 
 ## Part a: Cost Functions (15 pts)

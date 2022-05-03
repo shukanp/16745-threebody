@@ -80,23 +80,24 @@ macro jacobianevals(expr)
     end
 end
 
-function dynamics(model::RobotZoo.Cartpole, x, u, t)
+function dynamics(model::CR3BP, x, u, t)
     DYNAMICS_EVALS.dynamics += 1
     RobotDynamics.dynamics(model, x, u)
 end
 
 const CARTPOLE_JACOBIAN_CACHE = zeros(4, 5)
-function dynamics_jacobians(model::RobotZoo.Cartpole, x, u, t)
+function dynamics_jacobians(model::CR3BP, x, u, t)
     DYNAMICS_EVALS.jacobian += 1
     z = RobotDynamics.StaticKnotPoint(x, u, NaN, t)
     RobotDynamics.jacobian!(CARTPOLE_JACOBIAN_CACHE, model, z)
-    ix = SA[1,2,3,4]
-    iu = SA[5]
+    ix = SA[1,2,3,4,5,6]
+    iu = SA[7]
     A = CARTPOLE_JACOBIAN_CACHE[ix,ix]
     B = CARTPOLE_JACOBIAN_CACHE[ix,iu]
     return A,B
 end
 
+#What should we use here? 
 function discrete_dynamics(model::RobotDynamics.AbstractModel, x, u, t, dt)
     z = RobotDynamics.StaticKnotPoint(x, u, dt, t)
     RobotDynamics.discrete_dynamics(RobotDynamics.RK4, model, z)
@@ -105,8 +106,8 @@ end
 function discrete_jacobian(model::RobotDynamics.AbstractModel, x, u, t, dt)
     z = RobotDynamics.StaticKnotPoint(x, u, dt, t)
     RobotDynamics.discrete_jacobian!(RobotDynamics.RK4, CARTPOLE_JACOBIAN_CACHE, model, z)
-    ix = SA[1,2,3,4]
-    iu = SA[5]
+    ix = SA[1,2,3,4,5,6]
+    iu = SA[7]
     A = CARTPOLE_JACOBIAN_CACHE[ix,ix]
     B = CARTPOLE_JACOBIAN_CACHE[ix,iu]
     return A,B

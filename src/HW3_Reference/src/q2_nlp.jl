@@ -39,16 +39,16 @@ struct NLP{n,m,L} <: MOI.AbstractNLPEvaluator
     xinds::Vector{SVector{n,Int}}            # Z[xinds[k]] gives states for time step k
     uinds::Vector{SVector{m,Int}}            # Z[uinds[k]] gives controls for time step k
     times::Vector{Float64}                   # vector of times
-    f::Vector{SVector{4,Float64}}
-    A::Vector{SMatrix{4,4,Float64,16}}
-    B::Vector{SMatrix{4,1,Float64,4}}
-    xm::Vector{SVector{4,Float64}}
+    f::Vector{SVector{6,Float64}}
+    A::Vector{SMatrix{6,6,Float64,36}}
+    B::Vector{SMatrix{6,1,Float64,6}}
+    xm::Vector{SVector{6,Float64}}
     um::Vector{SVector{1,Float64}}
-    fm::Vector{SVector{4,Float64}}
-    Am::Matrix{SMatrix{4,4,Float64,16}}
-    Bm::Matrix{SMatrix{4,1,Float64,4}}
+    fm::Vector{SVector{6,Float64}}
+    Am::Matrix{SMatrix{6,6,Float64,36}}
+    Bm::Matrix{SMatrix{6,1,Float64,6}}
     use_sparse_jacobian::Bool
-    function NLP(prob::CartpoleProblem; use_sparse_jacobian::Bool=false)
+    function NLP(prob::CR3BPProblem; use_sparse_jacobian::Bool=false)
         n,m,N = prob.n, prob.m, prob.N
         xinds = [SVector{n}((k-1)*(n+m) .+ (1:n)) for k = 1:N]
         uinds = [SVector{m}((k-1)*(n+m) .+ (n+1:n+m)) for k = 1:N]
