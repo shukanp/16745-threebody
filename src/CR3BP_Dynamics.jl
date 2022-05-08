@@ -15,3 +15,17 @@ function CR3BPdynamics(rv) #Three body dynamics in Sun-Earth System
     rvdot[6] = -((1.0 - μ)*rv[3]      /r₁³) - (μ*rv[3]          /r₂³);
     return rvdot
 end
+
+#rk4 function
+function rk4(f, x, h)
+
+    f1 = f(x)
+    f2 = f(x + 0.5*h*f1)
+    f3 = f(x + 0.5*h*f2)
+    f4 = f(x + h*f3)
+    # TODO: implement
+    # xnext = zero(x)
+    xnext = x + (h/6.0)*(f1 + 2*f2 + 2*f3 + f4)
+    
+    return xnext
+end
