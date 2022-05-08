@@ -196,8 +196,8 @@ x_L2 = 1.0100751933379162;
 %%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
 
 
-% Dimensionless = true;
-Dimensionless = false;
+Dimensionless = true;
+% Dimensionless = false;
 LagrangePoint = 1;
 
 %% Third-Order Linear %%
@@ -262,12 +262,14 @@ LScale = 1.495978714e8;
 VScale = 29.784;
 TScale = 3.1536e7;
 if(Dimensionless)
+    disp("Looking at dimensionless system")
     xpoint = x_L;
     xsun = -mu;
     xearth = 1 + mu;
     eradius = 6378/LScale;
     sradius = 696000/LScale;
 else
+    disp("Looking at dimensional system")
     xpoint = x_L*LScale;
     xsun = (-mu)*LScale;
     xearth = (1 + mu)*LScale;
@@ -289,9 +291,13 @@ v1 = 0;
 v2 = s1*Ax^2 + s2*Az^2;
 v = 1 + v1 + v2;
 Tfinal = (2*pi)/(w_p*v);
+disp("Orbit of L1 is " + Tfinal + " dimensionless.")
 disp("Orbit of L1 is " + (Tfinal/(2*pi))*TScale/(24*60*60) + " days.")
 
-tau = 0:0.01:Tfinal;
+knotPoints = 50;
+step = Tfinal/knotPoints;
+disp("Step size is " + step + ".")
+tau = 0:step:Tfinal;
 phi = 0;
 tau_1 = w_p*tau + phi;
 
@@ -319,8 +325,8 @@ Z2 = Z * eradius;
 XS = X * sradius;
 YS = Y * sradius;
 ZS = Z * sradius;
-surf(X2 + xearth, Y2, Z2)
-surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
+% surf(X2 + xearth, Y2, Z2)
+% surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 
 % Draw XY plane
@@ -328,8 +334,8 @@ xmin = xsun;
 xmax = xearth;
 ymin = min(y1);
 ymax = max(y1);
-p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
-p.FaceAlpha = 0.1;
+% p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
+% p.FaceAlpha = 0.1;
 grid on;
 hold off;
 if(Dimensionless)
