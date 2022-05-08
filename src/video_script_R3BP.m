@@ -1,6 +1,5 @@
 clc; close all; clear;
 
-
 % First-Order Linear
 %{
 omega = 2.0152105515;
@@ -190,7 +189,28 @@ hold off;
 
 
 
+%%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
+x_L1 = 1;
+x_L2 = 1;
+%%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
+
+
 % Third-Order Linear
+
+msun = 1.98847e30;
+mearth = 5.9736e24;
+MuScale = mearth/(msun + mearth);
+
+gamma = 1.001090475e-2;
+LScale = 1.495978714e8;
+x = 0.932385*LScale;
+x_ = (x - 1 + MuScale + gamma)/gamma;
+
+T = 1.53536256e7; % L1 orbital period in seconds for halo orbits
+
+VScale = 29.784;
+TScale = 3.147e7;
+
 
 k = 3.2292680962;
 c2 = 4.0610735668;
@@ -225,10 +245,14 @@ b31 = (3/(8*d2))*8*lam*(3*c3*(k*b21 - 2*a23) - c4*(2 + 3*k^2)) ...
 b32 = ((9*lam)/d2)*(c3*(k*b22 + d21 + -2*a24) - c4) ... 
     + 3*((9*lam^2 + 1 + 2*c2)/(8*d2))*(4*c3*(k*a24 - b22) + k*c4); 
 
-xpoint = 0.932385;
+
+scaling_factor = 1.495978714e8;
+
+% xpoint = 0.932385;%*scaling_factor;
+xpoint = 0.5;%*scaling_factor;
 ypoint = 0;
 zpoint = 0;
-mu = -9.537e-4;
+mu = 3.040423398444176e-6;
 xsun = -mu;
 ysun = 0;
 zsun = 0;
@@ -238,15 +262,14 @@ zearth = 0;
 
 phi = 0;
 w_p = 2.086453455;
-tau = 0:0.05:100;
+tau = 0:0.01:pi;%100;
 tau_1 = w_p*tau + phi;
 
-scaling_factor = 1.495978714e8;
 eradius = 6378/scaling_factor;
 sradius = 696000/scaling_factor;
-Ax = 206000/scaling_factor;
-Ay = 665000/scaling_factor;
-Az = 110000/scaling_factor;
+Ax = 206000/scaling_factor;   % Ax is in km
+Ay = 665000/scaling_factor;   % Ay is in km
+Az = 110000/scaling_factor;   % Az is in km
 m = 1;
 dm = 2 - m;
 x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2 + xpoint;
@@ -263,6 +286,7 @@ XS = X * sradius;
 YS = Y * sradius;
 ZS = Z * sradius;
 surf(X2 + xearth, Y2, Z2)
+alpha 0.3
 surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 
@@ -271,8 +295,11 @@ plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 % (-1, 1, 0)
 % (-1, -1, 0)
 % (1, -1, 0)
-p = patch([1.2 -0.2 -0.2 1.2], [5e-3 5e-3 -5e-3 -5e-3], [0 0 0 0]);
+
+p = patch([xearth xsun xsun xearth], [max(y1) max(y1) min(y1) min(y1)], [0 0 0 0]);
+% p = patch([max(x1) min(x1) min(x1) max(x1)], [max(y1) max(y1) min(y1) min(y1)], [0 0 0 0]);
 p.FaceAlpha = 0.1;
+hold off
 
 grid on;
 xlabel('X') 
