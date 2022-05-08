@@ -289,6 +289,7 @@ v1 = 0;
 v2 = s1*Ax^2 + s2*Az^2;
 v = 1 + v1 + v2;
 Tfinal = (2*pi)/(w_p*v);
+disp("Orbit of L1 is " + Tfinal + " dimensionless.")
 disp("Orbit of L1 is " + (Tfinal/(2*pi))*TScale/(24*60*60) + " days.")
 
 tau = 0:0.01:Tfinal;

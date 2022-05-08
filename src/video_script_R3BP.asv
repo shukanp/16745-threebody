@@ -1,6 +1,7 @@
 clc; close all; clear;
-
+ %#ok<*UNRCH> 
 % First-Order Linear
+%%
 %{
 omega = 2.0152105515;
 time_vec = 0:0.01:1/omega;
@@ -187,120 +188,166 @@ hold off;
 %}
 %}
 
-% Third-Order Linear
+
+
+%%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
+x_L1 = 0.9899859900102089;
+x_L2 = 1.0100751933379162;
+%%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
+
+
+% Dimensionless = true;
+Dimensionless = false;
+LagrangePoint = 1;
+
+%% Third-Order Linear %%
+
+if LagrangePoint == 1     % L1
+    x_L = x_L1;
+    k = 3.2292680962;
+    c2 = 4.0610735668;
+    c3 = 3.0200105081;
+    c4 = 3.0305378797;
+    w_p = 2.086453455;
+elseif LagrangePoint == 2 % L2
+    x_L = x_L2;
+    k = 3.18723;
+    c2 = 3.94052;
+    c3 = -2.97984;
+    c4 = 2.97026;
+    w_p = 2.05701;
+end
+
+lam = sqrt((c2 + sqrt(9*c2^2 - 8*c2))/2);
+
+d1 = ((3*lam^2)/k)*(k*(6*lam^2 - 1) - 2*lam); 
+d2 = ((8*lam^2)/k)*(k*(11*lam^2 - 1) - 2*lam);
+a21 = 3*c3*(k^2 - 2)/(4*(1 + 2*c2)); 
+a22 = 3*c3/(4*(1 + 2*c2));
+
+a23 = -((3*c3*lam)/(4*k*d1))*(3*(k^3)*lam - 6*k*(k-lam) + 4); 
+a24 = -((3*c3*lam)/(4*k*d1))*(3*k*lam + 2);
+
+b21 = -3*c3*lam*(3*k*lam - 4)/(2*d1);
+b22 = -3*c3*lam/d1;
+
+a31 = (-9*lam/(4*d2))*(4*c3*(k*a23 - b21) + k*c4*(4 + k^2)) ...
+    + ((9*lam^2 + 1 - c2)/(2*d2))*(3*c3*(2*a23 - k*b21) + c4*(2 + 3*k^2));
+
+d21 = -c3/(2*lam^2);
+d31 = (3/(64*lam^2))*(4*c3*a24 + c4);
+d32 = (3/(64*lam^2))*(4*c3*(a23 - d21) + c4*(4 + k^2));
+
+a32 = (-9*lam/(4*d2))*(4*c3*(3*k*a24 - b22) + k*c4) ... 
+    - 3*((9*lam^2 + 1 - c2)/(2*d2))*(c3*(k*b22 - d21 - 2*a24) - c4);
+
+b31 = (3/(8*d2))*8*lam*(3*c3*(k*b21 - 2*a23) - c4*(2 + 3*k^2)) ... 
+     + (3/(8*d2))*((9*lam^2 + 1 + 2*c2)*(4*c3*(k*a23 - b21)) + k*c4*(4 + k^2));
+
+b32 = ((9*lam)/d2)*(c3*(k*b22 + d21 + -2*a24) - c4) ... 
+    + 3*((9*lam^2 + 1 + 2*c2)/(8*d2))*(4*c3*(k*a24 - b22) + k*c4); 
+
+s1 = (2*lam*(lam*(1 + k^2) - 2*k))^(-1)*((3/2)*c3*(2*a21*(k^2 - 2) - a23*(k^2 + 2) - 2*k*b21) - (3/8)*c4*(3*k^4 - 8*k^2 + 8));
+s2 = (2*lam*(lam*(1 + k^2) - 2*k))^(-1)*((3/2)*c3*(2*a22*(k^2 - 2) + a24*(k^2 + 2) + 2*k*b22 + 5*d21) + (3/8)*c4*(12 - k^2));
+
 
 msun = 1.98847e30;
-mearth = 5.9736e24;
-MuScale = mearth/(msun + mearth);
+mmoon = 7.34767309e22;
+mearth = 5.9736e24 + mmoon;
+TOrbit = 1.53536256e7; % L1 orbital period in seconds for halo orbits
 
-gamma = 1.001090475e-2;
+% Scaling factors
+mu = mearth/(msun + mearth);  % mu = 3.040423398444176e-6;
 LScale = 1.495978714e8;
-% L2 = 1.497610041e6;
-x = 0.932385*LScale;
-x_ = (x - 1 + MuScale + gamma)/gamma;
-
-T = 1.53536256e7; % L1 orbital period in seconds for halo orbits
-
 VScale = 29.784;
-TScale = 3.147e7;
+TScale = 3.1536e7;
+if(Dimensionless)
+    xpoint = x_L;
+    xsun = -mu;
+    xearth = 1 + mu;
+    eradius = 6378/LScale;
+    sradius = 696000/LScale;
+else
+    xpoint = x_L*LScale;
+    xsun = (-mu)*LScale;
+    xearth = (1 + mu)*LScale;
+    eradius = 6378;
+    sradius = 696000;
+end
+ypoint = 0;
+zpoint = 0;
+ysun = 0;
+zsun = 0;
+yearth = 0;
+zearth = 0;
+
+Ax = 206000/LScale;   % Ax is in km
+Ay = 665000/LScale;   % Ay is in km
+Az = 110000/LScale;   % Az is in km
+
+v1 = 0;
+v2 = s1*Ax^2 + s2*Az^2;
+v = 1 + v1 + v2;
+Tfinal = (2*pi)/(w_p*v);
+disp("Orbit of L1 is " + (Tfinal/(2*pi)) + " dimensionless.")
+disp("Orbit of L1 is " + (Tfinal/(2*pi))*TScale/(24*60*60) + " days.")
+
+tau = 0:0.01:Tfinal;
+phi = 0;
+tau_1 = w_p*tau + phi;
+
+m = 1;
+dm = 2 - m;
+x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2;
+y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax*Az^2)*sin(3*tau_1);
+z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1);
+if(Dimensionless)
+    x1 = x1 + xpoint;
+    y1 = y1 + ypoint;
+    z1 = z1 + zpoint;
+else
+    x1 = x1*LScale + xpoint;
+    y1 = y1*LScale + ypoint;
+    z1 = z1*LScale + zpoint;
+end
+
+hold on;
+plot3(xpoint, ypoint, zpoint, 'b*')
+[X,Y,Z] = sphere;
+X2 = X * eradius;
+Y2 = Y * eradius;
+Z2 = Z * eradius;
+XS = X * sradius;
+YS = Y * sradius;
+ZS = Z * sradius;
+surf(X2 + xearth, Y2, Z2)
+surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
+plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
+
+% Draw XY plane
+xmin = xsun;
+xmax = xearth;
+ymin = min(y1);
+ymax = max(y1);
+p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
+p.FaceAlpha = 0.1;
+grid on;
+hold off;
+if(Dimensionless)
+    title('Dimensionless')
+    xlabel('X (dimensionless)')
+    ylabel('Y (dimensionless)')
+    zlabel('Z (dimensionless)')
+else
+    title('With dimensions')
+    xlabel('X (km)')
+    ylabel('Y (km)')
+    zlabel('Z (km)')
+end
+%}
 
 
-% k = 3.2292680962;
-% c2 = 4.0610735668;
-% c3 = 3.0200105081;
-% c4 = 3.0305378797;
-% lam = sqrt((c2 + sqrt(9*c2^2 - 8*c2))/2);
-% 
-% d1 = ((3*lam^2)/k)*(k*(6*lam^2 - 1) - 2*lam); 
-% d2 = ((8*lam^2)/k)*(k*(11*lam^2 - 1) - 2*lam);
-% a21 = 3*c3*(k^2 - 2)/(4*(1 + 2*c2)); 
-% a22 = 3*c3/(4*(1 + 2*c2));
-% 
-% a23 = -((3*c3*lam)/(4*k*d1))*(3*(k^3)*lam - 6*k*(k-lam) + 4); 
-% a24 = -((3*c3*lam)/(4*k*d1))*(3*k*lam + 2);
-% 
-% b21 = -3*c3*lam*(3*k*lam - 4)/(2*d1);
-% b22 = -3*c3*lam/d1;
-% 
-% a31 = (-9*lam/(4*d2))*(4*c3*(k*a23 - b21) + k*c4*(4 + k^2)) ...
-%     + ((9*lam^2 + 1 - c2)/(2*d2))*(3*c3*(2*a23 - k*b21) + c4*(2 + 3*k^2));
-% 
-% d21 = -c3/(2*lam^2);
-% d31 = (3/(64*lam^2))*(4*c3*a24 + c4);
-% d32 = (3/(64*lam^2))*(4*c3*(a23 - d21) + c4*(4 + k^2));
-% 
-% a32 = (-9*lam/(4*d2))*(4*c3*(3*k*a24 - b22) + k*c4) ... 
-%     - 3*((9*lam^2 + 1 - c2)/(2*d2))*(c3*(k*b22 - d21 - 2*a24) - c4);
-% 
-% b31 = (3/(8*d2))*8*lam*(3*c3*(k*b21 - 2*a23) - c4*(2 + 3*k^2)) ... 
-%      + (3/(8*d2))*((9*lam^2 + 1 + 2*c2)*(4*c3*(k*a23 - b21)) + k*c4*(4 + k^2));
-% 
-% b32 = ((9*lam)/d2)*(c3*(k*b22 + d21 + -2*a24) - c4) ... 
-%     + 3*((9*lam^2 + 1 + 2*c2)/(8*d2))*(4*c3*(k*a24 - b22) + k*c4); 
-% 
-% 
-% scaling_factor = 1.495978714e8;
-% 
-% xpoint = 0.932385;%*scaling_factor;
-% ypoint = 0;
-% zpoint = 0;
-% mu = 3.040423398444176e-6;
-% xsun = -mu;
-% ysun = 0;
-% zsun = 0;
-% xearth = 1 + xsun;
-% yearth = 0;
-% zearth = 0;
-% 
-% phi = 0;
-% w_p = 2.086453455;
-% tau = 0:0.05:100;
-% tau_1 = w_p*tau + phi;
-% 
-% eradius = 6378/scaling_factor;
-% sradius = 696000/scaling_factor;
-% Ax = 206000/scaling_factor;   % Ax is in km
-% Ay = 665000/scaling_factor;   % Ay is in km
-% Az = 110000/scaling_factor;   % Az is in km
-% m = 1;
-% dm = 2 - m;
-% x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2 + xpoint;
-% y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax*Az^2)*sin(3*tau_1) + ypoint;
-% z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1) + zpoint;
-% 
-% hold on;
-% plot3(xpoint, ypoint, zpoint, 'b*')
-% [X,Y,Z] = sphere;
-% X2 = X * eradius;
-% Y2 = Y * eradius;
-% Z2 = Z * eradius;
-% XS = X * sradius;
-% YS = Y * sradius;
-% ZS = Z * sradius;
-% surf(X2 + xearth, Y2, Z2)
-% alpha 0.3
-% surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
-% hold off
-% % plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
-% 
-% % Draw XY plane
-% % (1, 1, 0)
-% % (-1, 1, 0)
-% % (-1, -1, 0)
-% % (1, -1, 0)
-% % p = patch([1.2 -0.2 -0.2 1.2], [5e-3 5e-3 -5e-3 -5e-3], [0 0 0 0]);
-% % p.FaceAlpha = 0.1;
-% 
-% grid on;
-% xlabel('X') 
-% ylabel('Y') 
-% zlabel('Z') 
-% hold off;
-% %}
-
-
-
-
+%%
 % BACKUP
 % clc; close all; clear all;
 % 
