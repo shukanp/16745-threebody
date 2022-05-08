@@ -41,9 +41,9 @@ function Non_lin_exp(tau)
     Az = 110000/scaling_factor;
     m=1 
     dm = 2 - m;
-    x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2 + xpoint;
-    y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax*Az^2)*sin(3*tau_1) + ypoint;
-    z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1) + zpoint;
+    x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2;
+    y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax*Az^2)*sin(3*tau_1);
+    z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1);
     # x1 =    -Ax.*cos.(tau_1) .+ (a23*Ax^2 - a24*Az^2).*cos.(2 .* tau_1) .+ (a31*Ax^3 - a32*Ax*Az^2).*cos.(3 .* tau_1) .+ a21*Ax^2 .+ a22*Az^2 .+ xpoint;
     # y1 =     Ay.*sin.(tau_1) .+ (b21*Ax^2 - b22*Az^2).*sin.(2 .* tau_1) .+ (b31*Ax^3 - b32*Ax*Az^2).*sin.(3 .* tau_1) .+ ypoint;
     # z1 =  dm*Az.*cos.(tau_1) .+ dm*d21*Ax*Az.*cos.(2 .* tau_1 .- 3) .+ dm*(d32*Az*Ax^2 - d31*Az^3).*cos.(3 .* tau_1) .+ zpoint;

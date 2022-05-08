@@ -1,6 +1,6 @@
 function CR3BPdynamics(rv) #Three body dynamics in Sun-Earth System
 
-    μ = 9.537e-4
+    μ = 3.040423398444176e-6
     
     r₁³= ((rv[1] + μ)^2.0     + rv[2]^2.0 + rv[3]^2.0)^1.5; # distance to m1, LARGER MASS
     r₂³= ((rv[1] - 1 + μ)^2.0 + rv[2]^2.0 + rv[3]^2.0)^1.5; # distance to m2, smaller mass
