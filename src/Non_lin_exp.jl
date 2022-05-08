@@ -28,22 +28,22 @@ function Non_lin_exp(tau, LagrangePoint, Dimensionless, System)
     λ = sqrt((c2 + sqrt(9*c2^2 - 8*c2))/2);
     d1 = ((3*λ^2)/k)*(k*(6*λ^2 - 1) - 2*λ); 
     d2 = ((8*λ^2)/k)*(k*(11*λ^2 - 1) - 2*λ);
-    a21 = 3*c3*(k^2 - 2)/(4*(1 + 2*c2)); 
+    a21 = 3*c3*(k^2 - 2)/(4*(1 + 2*c2));
     a22 = 3*c3/(4*(1 + 2*c2));
     a23 = -((3*c3*λ)/(4*k*d1))*(3*(k^3)*λ - 6*k*(k-λ) + 4); 
     a24 = -((3*c3*λ)/(4*k*d1))*(3*k*λ + 2);
     b21 = -3*c3*λ*(3*k*λ - 4)/(2*d1);
     b22 = -3*c3*λ/d1;
-    a31 = (-9*λ/(4*d2))*(4*c3*(k*a23 - b21) + k*c4*(4 + k^2))  + ((9*λ^2 + 1 - c2)/(2*d2))*(3*c3*(2*a23 - k*b21) + c4*(2 + 3*k^2));
+    a31 = (-9*λ/(4*d2))*(4*c3*(k*a23 - b21) + k*c4*(4 + k^2)) + ((9*λ^2 + 1 - c2)/(2*d2))*(3*c3*(2*a23 - k*b21) + c4*(2 + 3*k^2));
     d21 = -c3/(2*λ^2);
     d31 = (3/(64*λ^2))*(4*c3*a24 + c4);
     d32 = (3/(64*λ^2))*(4*c3*(a23 - d21) + c4*(4 + k^2));
     a32 = (-9*λ/(4*d2))*(4*c3*(3*k*a24 - b22) + k*c4) - 3*((9*λ^2 + 1 - c2)/(2*d2))*(c3*(k*b22 - d21 - 2*a24) - c4);
-    b31 = (3/(8*d2))*8*λ*(3*c3*(k*b21 - 2*a23) - c4*(2 + 3*k^2)) + (3/(8*d2))*((9*λ^2 + 1 + 2*c2)*(4*c3*(k*a23 - b21)) + k*c4*(4 + k^2));
-    b32 = ((9*λ)/d2)*(c3*(k*b22 + d21 + -2*a24) - c4)  + 3*((9*λ^2 + 1 + 2*c2)/(8*d2))*(4*c3*(k*a24 - b22) + k*c4);
+    b31 = (3/(8*d2))*8*λ*(3*c3*(k*b21 - 2*a23)-c4*(2 + 3*k^2))+(3/(8*d2))*((9*λ^2 +1+ 2*c2)*(4*c3*(k*a23 - b21))+k*c4*(4 + k^2));
+    b32 = ((9*λ)/d2)*(c3*(k*b22 + d21 + -2*a24) - c4) + 3*((9*λ^2 + 1 + 2*c2)/(8*d2))*(4*c3*(k*a24 - b22) + k*c4);
 
     # Get scales based on system (Sun-Earth for now)
-    [mu, LScale, VScale, TScale] = scales(System)
+    mu, LScale, VScale, TScale = scales(System)
 
     # Set x, y, z of Lagrange Point based on if we want dimensionless system or not
     if(Dimensionless)
@@ -84,7 +84,7 @@ function Non_lin_exp(tau, LagrangePoint, Dimensionless, System)
 end 
 
 # Linear Approximation of the CR3BP
-# ------> NEED TO UPDATE LINEAR APPROX SAME WAY AS 3RD ORDER ABOVE
+# ------> NEED TO UPDATE LINEAR APPROX SAME WAY AS 3RD ORDER ABOVE <------
 function lin_approx(tau)
     omega = 2.0152105515;
     scaling_factor = 1.495978714e8;
