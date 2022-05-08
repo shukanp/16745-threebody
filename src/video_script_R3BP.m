@@ -281,17 +281,22 @@ zsun = 0;
 yearth = 0;
 zearth = 0;
 
-phi = 0;
-Tfinal = 3.011418870678611;
+Ax = 206000/LScale;   % Ax is in km
+Ay = 665000/LScale;   % Ay is in km
+Az = 110000/LScale;   % Az is in km
+
+v1 = 0;
+v2 = s1*Ax^2 + s2*Az^2;
+v = 1 + v1 + v2;
+Tfinal = (2*pi)/(w_p*v);
 disp("Orbit of L1 is " + (Tfinal/(2*pi))*TScale/(24*60*60) + " days.")
+
 tau = 0:0.01:Tfinal;
+phi = 0;
 tau_1 = w_p*tau + phi;
 
 m = 1;
 dm = 2 - m;
-Ax = 206000/LScale;   % Ax is in km
-Ay = 665000/LScale;   % Ay is in km
-Az = 110000/LScale;   % Az is in km
 x1 =    -Ax*cos(tau_1) + (a23*Ax^2 - a24*Az^2)*cos(2*tau_1) + (a31*Ax^3 - a32*Ax*Az^2)*cos(3*tau_1) + a21*Ax^2 + a22*Az^2;
 y1 =     Ay*sin(tau_1) + (b21*Ax^2 - b22*Az^2)*sin(2*tau_1) + (b31*Ax^3 - b32*Ax*Az^2)*sin(3*tau_1);
 z1 =  dm*Az*cos(tau_1) + dm*d21*Ax*Az*cos(2*tau_1 - 3) + dm*(d32*Az*Ax^2 - d31*Az^3)*cos(3*tau_1);
@@ -304,10 +309,6 @@ else
     y1 = y1*LScale + ypoint;
     z1 = z1*LScale + zpoint;
 end
-v1 = 0;
-v2 = s1*Ax^2 + s2*Az^2;
-v = 1 + v1 + v2;
-T = (2*pi)/(w_p*v);
 
 hold on;
 plot3(xpoint, ypoint, zpoint, 'b*')
@@ -318,8 +319,8 @@ Z2 = Z * eradius;
 XS = X * sradius;
 YS = Y * sradius;
 ZS = Z * sradius;
-% surf(X2 + xearth, Y2, Z2)
-% surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
+surf(X2 + xearth, Y2, Z2)
+surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 
 % Draw XY plane
@@ -327,8 +328,8 @@ xmin = xsun;
 xmax = xearth;
 ymin = min(y1);
 ymax = max(y1);
-% p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
-% p.FaceAlpha = 0.1;
+p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
+p.FaceAlpha = 0.1;
 grid on;
 hold off;
 if(Dimensionless)
