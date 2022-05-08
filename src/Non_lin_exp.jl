@@ -4,6 +4,7 @@ function Non_lin_exp(tau, LagrangePoint, Dimensionless, System)
     # Set parameters based on Lagrange point (need to implement parameters for other systems not Sun-Earth)
     x_L1 = 0.9899859900102089;
     x_L2 = 1.0100751933379162;
+    L1, L2, L3, L4, L5 = get_LPoints(System) # Once a more accurate implementation of this function is done, change x_L1 to L1
     if LagrangePoint == 1     # L1
         x_L = x_L1;
         y_L = 0;

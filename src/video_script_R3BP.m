@@ -196,8 +196,8 @@ x_L2 = 1.0100751933379162;
 %%%%%%% Lagrange Point Information for Earth-Sun System %%%%%%%
 
 
-Dimensionless = true;
-% Dimensionless = false;
+% Dimensionless = true;
+Dimensionless = false;
 LagrangePoint = 1;
 
 %% Third-Order Linear %%
@@ -325,8 +325,8 @@ Z2 = Z * eradius;
 XS = X * sradius;
 YS = Y * sradius;
 ZS = Z * sradius;
-% surf(X2 + xearth, Y2, Z2)
-% surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
+surf(X2 + xearth, Y2, Z2)
+surf(XS + xsun, YS, ZS, 'FaceColor', 'y', 'EdgeColor', 'k')
 plot3(x1, y1, z1, 'r', 'DisplayName', 'M = 1')
 
 % Draw XY plane
@@ -334,8 +334,8 @@ xmin = xsun;
 xmax = xearth;
 ymin = min(y1);
 ymax = max(y1);
-% p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
-% p.FaceAlpha = 0.1;
+p = patch([xmax xmin xmin xmax], [ymax ymax ymin ymin], [0 0 0 0]);
+p.FaceAlpha = 0.1;
 grid on;
 hold off;
 if(Dimensionless)
