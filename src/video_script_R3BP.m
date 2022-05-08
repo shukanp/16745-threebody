@@ -198,7 +198,7 @@ x_L2 = 1.0100751933379162;
 
 % Dimensionless = true;
 Dimensionless = false;
-LagrangePoint = 1;
+LagrangePoint = 2;
 
 %% Third-Order Linear %%
 
