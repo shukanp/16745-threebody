@@ -86,24 +86,49 @@ end
 
 # Linear Approximation of the CR3BP
 # ------> NEED TO UPDATE LINEAR APPROX SAME WAY AS 3RD ORDER ABOVE <------
-function lin_approx(tau)
-    omega = 2.0152105515;
-    scaling_factor = 1.495978714e8;
-    w_p = 2.086453455;
-    w_v = 2.0152105515;
-    Ax = 206000/scaling_factor;
-    Ay = 665000/scaling_factor;
-    Az = 110000/scaling_factor;
-    xpoint = 0.932385;
-    ypoint = 0;
-    zpoint = 0;
-    mu = -9.537e-4;
+function lin_approx(tau, LagrangePoint, Dimensionless, System)
+    # Set parameters based on Lagrange point (need to implement parameters for other systems not Sun-Earth)
+    x_L1 = 0.9899859900102089;
+    x_L2 = 1.0100751933379162;
+    L1, L2, L3, L4, L5 = get_LPoints(System) # Once a more accurate implementation of this function is done, change x_L1 to L1
+    if LagrangePoint == 1     # L1
+        x_L = x_L1;
+        y_L = 0;
+        z_L = 0;
+        w_p = 2.086453455;
+    elseif LagrangePoint == 2 # L2
+        x_L = x_L2;
+        y_L = 0;
+        z_L = 0;
+        w_p = 2.05701;
+    end
+
+    # Get scales based on system (Sun-Earth for now)
+    mu, LScale, VScale, TScale = scales(System)
+
+    # Set x, y, z of Lagrange Point based on if we want dimensionless system or not
+    if(Dimensionless)
+        xpoint = x_L;
+        ypoint = y_L;
+        zpoint = z_L;
+    else
+        xpoint = x_L*LScale;
+        ypoint = y_L*LScale;
+        zpoint = z_L*LScale;
+    end
+    
     phi = 0;
-    m = 1;
-    psi = m*(pi/2) + phi;
-    x1 = -Ax*cos(tau + phi) + xpoint;
-    y1 = Ay*sin(tau + phi) + ypoint;
-    z1 = Az*sin(tau + 1*(pi/2) + phi) + zpoint;
+    
+    Ax = 206000/LScale;
+    Ay = 665000/LScale;
+    Az = 110000/LScale;
+    
+    m = 1
+    dm = 2 - m;
+
+    x1 = -Ax*cos(w_p*tau + phi) + xpoint;
+    y1 = Ay*sin(w_p*tau + phi) + ypoint;
+    z1 = Az*sin(w_p*tau + 1*(pi/2) + phi) + zpoint;
     return [x1, y1, z1]
 end 
 
@@ -112,14 +137,12 @@ function get_reference()
     Xref =[zeros(Nx) for i = 1:Nt];
     for k = 1:Nt
         Pos = Non_lin_exp(thist[k], LagrangePoint, Dimensionless, System)
-        # Pos = Non_lin_exp(thist[k]);
-        # Pos = lin_approx(thist[k]);
+        # Pos = lin_approx(thist[k], LagrangePoint, Dimensionless, System)
         Xref[k][1] = Pos[1];
         Xref[k][2] = Pos[2];
         Xref[k][3] = Pos[3];
         Vels = ForwardDiff.derivative(x -> Non_lin_exp(x, LagrangePoint, Dimensionless, System), thist[k]);
-        # Vels = ForwardDiff.derivative(Non_lin_exp,thist[k]);
-        # Vels = ForwardDiff.derivative(lin_approx,thist[k]);
+        # Vels = ForwardDiff.derivative(x -> lin_approx(x, LagrangePoint, Dimensionless, System), thist[k]);
         Xref[k][4] = Vels[1];
         Xref[k][5] = Vels[2];
         Xref[k][6] = Vels[3];
