@@ -106,3 +106,24 @@ function lin_approx(tau)
     z1 = Az*sin(tau + 1*(pi/2) + phi) + zpoint;
     return [x1, y1, z1]
 end 
+
+#Generate Reference Trajectory 
+function get_reference()
+    Xref =[zeros(Nx) for i = 1:Nt];
+    for k = 1:Nt
+        Pos = Non_lin_exp(thist[k], LagrangePoint, Dimensionless, System)
+        # Pos = Non_lin_exp(thist[k]);
+        # Pos = lin_approx(thist[k]);
+        Xref[k][1] = Pos[1];
+        Xref[k][2] = Pos[2];
+        Xref[k][3] = Pos[3];
+        Vels = ForwardDiff.derivative(x -> Non_lin_exp(x, LagrangePoint, Dimensionless, System), thist[k]);
+        # Vels = ForwardDiff.derivative(Non_lin_exp,thist[k]);
+        # Vels = ForwardDiff.derivative(lin_approx,thist[k]);
+        Xref[k][4] = Vels[1];
+        Xref[k][5] = Vels[2];
+        Xref[k][6] = Vels[3];
+    end
+    Uref = h*ones(Nt);
+return Xref,Uref
+end 
