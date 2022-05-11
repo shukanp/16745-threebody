@@ -1,4 +1,7 @@
-# Calculate period for specified system
+"The following file contains: 
+-get_Period(LagrangePoint,System)-Calculate period for specified system
+-scales(System)-Get scaling factors for the system of interest"
+
 function get_Period(LagrangePoint, System)
     # Set parameters based on Lagrange point (need to implement parameters for other systems not Sun-Earth)
     if LagrangePoint == 1     # L1
@@ -42,7 +45,7 @@ function get_Period(LagrangePoint, System)
     return [Tfinal, Tfinal_days]
 end
 
-# Get scaling factors for the system of interest
+
 function scales(System)
     mu = 0
     LScale = 0

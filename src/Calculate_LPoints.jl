@@ -1,4 +1,4 @@
-# Calculate Lagrange Points for specified system
+"get_LPoints(System)-Calculate Lagrange Points for specified system"
 function get_LPoints(System)
     mu, LScale, VScale, TScale = scales(System)
 

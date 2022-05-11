@@ -1,3 +1,4 @@
+"It contains the boilerplate code to set up the MOI with IPOPT and the Sparsity Pattern"
 const MOI = MathOptInterface;
 
 function MOI.eval_objective(prob::MOI.AbstractNLPEvaluator, x)

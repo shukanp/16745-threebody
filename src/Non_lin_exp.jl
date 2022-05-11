@@ -1,4 +1,8 @@
-# Non linear Approximation to third order expansion
+"This file contains the following:
+-Non_lin_exp(timestep,LagrangePoint,Dimensionless or not,System)-Non linear Approximation to third order expansion
+-Lin_approx(timestep,LagrangePoint,Dimensionless or not,System)-Linear Approximation of the CR3BP dynamics
+-get_reference()-Calculates the reference trajectory given if its the linear or non-linear approximation "
+
 function Non_lin_exp(tau, LagrangePoint, Dimensionless, System)
     
     # Set parameters based on Lagrange point (need to implement parameters for other systems not Sun-Earth)

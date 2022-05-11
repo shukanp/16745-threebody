@@ -1,14 +1,19 @@
-#Our code 
+"The following files contain: 
+-Primal Bounds(n)-Based on the optimization problem set the upper and lower bounds for the primal variables
+-constraint_bounds(m)-Sets the upper and lower bounds of the constraints
+-initialize_sparsity(nlp)-Sets the blocks of the NonZero elements of the Jacobian
+-jac_c(nlp)-Evaluates manually the Jacobian of the constraint vector
+-dynamics_constraint()-Sets the dynamics constraint in the constraint vector
+-con!()- Set the dynamics constraint and the periodicity constraint "
 function primal_bounds(n)
     x_l = -Inf*ones(n)
-    x_u = Inf*ones(n) #+_ 20% dt_ref
+    x_u = Inf*ones(n) 
     for k = 1:Nt
-        x_l[u_idx[k]] .= h*0.01 #Something reasonable based on dt_ref 0.8*dt
+        x_l[u_idx[k]] .= h*0.01 
         x_u[u_idx[k]] .= h*1.5
     end 
     return x_l, x_u
 end
-#Our code 
 
 function constraint_bounds(m; idx_ineq=(1:0))
     c_l = zeros(m)
@@ -32,6 +37,7 @@ function initialize_sparsity!(prob::MOI.AbstractNLPEvaluator)
     n = 0 
     blocks = prob.blocks
     idx = x_idx[1]
+#Blocks of the pertaining the dynamics constraint jacobian
     for k = 1:Nt-1
         idx = idx .+ n
         setblock!(blocks, idx, x_idx[k])
@@ -78,7 +84,6 @@ function jac_c!(prob::MOI.AbstractNLPEvaluator, jacvec::AbstractVector, Z) where
 
         idx = idx .+ n_
         x1,x2 = Z[x_idx[k]], Z[x_idx[k+1]]
-        u1,u2 = Z[u_idx[k]], Z[u_idx[k+1]]
 
         jac_x1 = view(jac, idx, x_idx[k])
         jac_u1 = view(jac, idx, u_idx[k])
@@ -137,7 +142,7 @@ end
 
 function con!(c,ztraj)
     z = reshape(ztraj,Nx+Nu,Nt)#7 x 50
-    @views dynamics_constraint!(c[1:(end-Nx)],ztraj) #6 x 49 = 294
+    @views dynamics_constraint!(c[1:(end-Nx)],ztraj)
     #Periodicity Constraint 
     c[(end-Nx+1):end] .= z[1:Nx,end] - z[1:Nx,1]
 end

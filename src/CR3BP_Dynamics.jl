@@ -1,3 +1,16 @@
+"This Julia file contains:
+-CR3BPdynamics(StateVector(Positions&Velocities))-Continuous Dynamics of the CR3BP
+-rk4(ContinuosDyn Function,StateVector,Timestep) -RK4function to discretize dynamics
+-dircol_dynamics(StateVec at k, StateVec at k+1, timestep)-Hermite Simpson Implicit Integration
+-CR3BPdynamicsWithUforA(StateVec,ControlVec)- Continuous Dynamics with Accelerations of thirdbody to get to work ForwardDiff w.r.t X
+-CR3BPdynamicsWithUforB(StateVec,ControlVec)- Continuous Dynamics with Accelerations of thirdbody to get to work ForwardDiff w.r.t U
+-Linearize!(AJac,BJac,RefTraj,Uref)-Discretization of Continous Dynamics using RK4
+-calc_gains()- Calculate the Feedback Gains using the Riccatti recursion
+
+NOTE: The team acknowledges this implementation is not the best. For future iterations we would like to:
+-In the linearize function change the integrator to Hermite-Simpson for a better Energy Conversavtion
+-Implement the model with the Acceleration as inputs as the absolute model and make them zero in the optimization to have just one model for the whole problem"
+
 function CR3BPdynamics(rv) #Three body dynamics in Sun-Earth System
 
     μ = 3.040423398444176e-6
@@ -90,9 +103,7 @@ function rk4WithU(f, x, u, h) #the second input stays as u bc u is constant for 
 end
 
 function linearize!(A,B,xtraj, U)
-
     X = copy(xtraj)
-    
     # loop over all the time steps in the reference trajectory
     for k = 1:Nt-1
         # evaluate the discrete jacobian at the current time step

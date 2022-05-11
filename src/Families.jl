@@ -1,4 +1,6 @@
 
+"This file contains: 
+-Generating_Orbit_Families(InitialSeed,num of fams,scale %, Decresease or Increase)- Generate a familie of halo orbits depending on the inputs"
 function Generating_Orbit_Families(z0, numIters, scaleValue, Up)
     # Initial seed X0 and P0 (Xref and Uref since Uref is the timesteps h)
     j = numIters
