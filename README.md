@@ -1,27 +1,9 @@
 # Optimal Control Final Project
+  
+## The following code is capable of:
 
-## Completed so far
-
-1. Read Chapter 1 of Dynamical Systems, the Three-Body Problem (Koon) book
-2. Created (this) GitHub
-3. Gathered references
-
-## Next things (To-Do)
-
-* Skim references
-* Calculate Lagrange Points
-* Generate motion of a particle (spacecraft) in 2D
-   * Dynamics: f(x) --> vector of the states (4 states, 2 pos and 2 vel)
-   * Integration: rk4()
-   * Plot
-   * 3D Visualizer
-
-## Figure out (questions)
-
-* What to do with dynamics?
-   * Add inputs?
-   * If adding inputs, implement feedback controller?
-       * LQR?
-       * MPC?
-       * iLQR?
-       * SQP?
+1.Calculate Non-Linear 3rd Order Expansion of the CR3BP
+2.Sets up the NLP using IPOPT with DIRCOL using Hermite-Simpson Integration
+3.Leverage the Sparsity Pattern of the Constraint Vector Jacobian 
+4.After solving the NLP it can generate different families of a specific halo orbit scaling it in each iteration
+5.Create a TV-LQR to maintain a disturbed third body into the calculted Halo-Orbit
