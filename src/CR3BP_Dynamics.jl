@@ -101,7 +101,7 @@ function linearize!(A,B,xtraj, U)
     end
 end
 
-function calc_gains!(xtraj, A, B, P, K, Qf, Q) #input here is the full state output of ipopt
+function calc_gains!(xtraj, A, B, P, R, K, Qf, Q) #input here is the full state output of ipopt
     
     #Implement Riccati recursion for TVLQR
 
@@ -113,12 +113,3 @@ function calc_gains!(xtraj, A, B, P, K, Qf, Q) #input here is the full state out
 
     return nothing
 end
-
-function get_control(X,k,U,K,xtraj)
-    #       should return a vector of size (m,), where m is the number of controls
-    u = zeros(3)
-    
-    u = U[k] - ctrl.K[k]*(x - ctrl.X[k])
-    return u 
-end
-
